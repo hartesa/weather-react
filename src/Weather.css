@@ -97,9 +97,11 @@ h1,
   display: inline;
   position: relative;
   top: 5px;
+  margin-left: 10px;
 }
 .btn-secondary {
   background-color: burlywood;
+  margin-left: 10px;
   border: none;
 }
 button.btn.btn-primary.mb-2:hover {
