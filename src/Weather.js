@@ -20,9 +20,9 @@ export default function Weather() {
       <div className="container">
         <div className="weather-app">
           <br />
-          <h1>
+          {/* <h1>
             WEATHER IN <span className="city">{weatherData.city}</span>
-          </h1>
+          </h1> */}
 
           <div id="inputForm">
             <form id="input-form">
@@ -45,6 +45,9 @@ export default function Weather() {
           <div className="container">
             <div className="row">
               <div className="col-4 left">
+                <div className="current-city">
+                  {weatherData.city.toUpperCase()}
+                </div>
                 <span id="current-day-time">
                   <span id="current-day"> {weatherData.day} </span>
                   <span id="current-time"> {weatherData.time} </span>

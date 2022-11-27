@@ -12,7 +12,7 @@ body {
   border-style: none;
   border-radius: 30px 0px;
   margin: auto;
-  padding-bottom: 40px;
+  padding-bottom: 0px;
   max-width: 950px;
   background-color: white;
   box-shadow: 0px 0px 50px burlywood, inset 0 0 6px #f8a100;
@@ -21,6 +21,7 @@ body {
 .container {
   margin-top: 20px;
   max-width: 85%;
+  padding-bottom: 20px;
 }
 
 .left,
@@ -227,7 +228,7 @@ span#country-city {
   float: right;
 }
 div.col-4.left {
-  padding-left: 50px;
+  padding-left: 30px;
 }
 
 div.afternote {
@@ -236,6 +237,11 @@ div.afternote {
 
 a.github-link {
   text-decoration: none;
+}
+
+.current-city {
+  font-size: 20px;
+  font-weight: 900;
 }
 
 @media (max-width: 575px) {
@@ -263,14 +269,15 @@ a.github-link {
     margin-left: 5px;
   }
   .container {
+    margin-top: 20px;
     --bs-gutter-x: 0;
   }
   div.col-4.left {
-    padding-left: 0;
+    padding-left: 10px;
   }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 576px) and (max-width: 768px) {
   img.currentWeatherEmoji {
     width: 80px;
   }
@@ -286,6 +293,7 @@ a.github-link {
   .container {
     margin: 0 auto;
     margin-top: 20px;
+    padding-bottom: 20px;
   }
   div#inputForm {
     margin: 10px;
@@ -299,6 +307,6 @@ a.github-link {
     --bs-gutter-x: 0;
   }
   div.col-4.left {
-    padding-left: 30px;
+    padding-left: 20px;
   }
 }
