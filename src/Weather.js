@@ -116,6 +116,7 @@ export default function Weather() {
 
             <div className="afternote">
               <i class="fa-brands fa-github github-icon" alt="github"></i>
+              <span> </span>
               <a
                 href="https://github.com/hartesa/weather-react"
                 target="_blank"
@@ -124,6 +125,7 @@ export default function Weather() {
               >
                 Open-source code
               </a>
+              <span> </span>
               by Hartesa ©2022
             </div>
           </div>

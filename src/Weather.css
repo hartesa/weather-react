@@ -228,6 +228,14 @@ div.col-4.left {
   padding-left: 50px;
 }
 
+div.afternote {
+  letter-spacing: 00.8px;
+}
+
+a.github-link {
+  text-decoration: none;
+}
+
 @media (max-width: 575px) {
   img.currentWeatherEmoji {
     width: 60px;
