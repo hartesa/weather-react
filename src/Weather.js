@@ -1,19 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Weather.css";
+import axios from "axios";
 
 export default function Weather() {
-  let weatherData = {
+  let [city, setCity] = useState();
+  let [weatherData, setWeatherData] = useState({
     city: "Jakarta",
-    day: "Tuesday",
-    time: "10:00",
-    currentTemp: 21,
+    currentTemp: 23,
     currentWeatherImage:
       "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png",
-    description: "Cloudy",
-    clouds: 15,
-    humidity: 50,
-    wind: 10,
-  };
+    description: "Cloudy as shit",
+    clouds: 43,
+    humidity: 32,
+    wind: 12,
+  });
+
+  let now = new Date();
+  let Days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  let currentDay = Days[now.getDay()] + " - ";
+  let currentTime = addZero(now.getHours()) + ":" + addZero(now.getMinutes());
+
+  function addZero(i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  }
+
+  function changeCity(event) {
+    setCity(event.target.value);
+  }
+
+  function inputCity(event) {
+    event.preventDefault();
+    const apiKey = "3bb0c822ffbf8d7d00af7f1e1a4032dc";
+    let apiCityUrl = `https://api.openweathermap.org/data/2.5/weather?q=${weatherData.city}&appid=${apiKey}&units=metric`;
+    axios.get(apiCityUrl).then(getUrl);
+    console.log(apiCityUrl);
+  }
+
+  function getUrl(response) {
+    setWeatherData({
+      city: `${city}`,
+      country: response.data.sys.country,
+      currentTemp: Math.round(response.data.main.temp),
+      currentWeatherImage:
+        "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png",
+      description: response.data.weather[0].description,
+      clouds: response.data.clouds.all,
+      humidity: response.data.main.humidity,
+      wind: response.data.wind.speed,
+    });
+  }
 
   return (
     <div className="Weather">
@@ -25,12 +71,13 @@ export default function Weather() {
           </h1> */}
 
           <div id="inputForm">
-            <form id="input-form">
+            <form id="input-form" onSubmit={inputCity}>
               <input
                 className="enter-city"
                 type="text"
                 id="inputCity"
                 placeholder="enter a city"
+                onChange={changeCity}
               />
               <button type="submit" className="btn btn-primary mb-2">
                 Submit
@@ -49,8 +96,8 @@ export default function Weather() {
                   {weatherData.city.toUpperCase()}
                 </div>
                 <span id="current-day-time">
-                  <span id="current-day"> {weatherData.day} </span>
-                  <span id="current-time"> {weatherData.time} </span>
+                  <span id="current-day"> {currentDay} </span>
+                  <span id="current-time"> {currentTime} </span>
                 </span>
                 <br />
                 <span className="current-temp">

@@ -130,17 +130,17 @@ button.btn.btn-primary.mb-2:hover {
   font-size: 40px;
   font-weight: 900;
 }
-#tempc {
+.tempc {
   color: salmon;
 }
-#tempc:hover {
+.tempc:hover {
   color: burlywood;
   cursor: pointer;
 }
-#tempf {
+.tempf {
   color: salmon;
 }
-#tempf:hover {
+.tempf:hover {
   color: burlywood;
   cursor: pointer;
 }
