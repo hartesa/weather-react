@@ -14,6 +14,22 @@ export default function Weather() {
     humidity: 32,
     wind: 12,
   });
+  let [temperature, setTemperature] = useState(20);
+  let [unitTemp, setUnitTemp] = useState("C");
+  let [tempFButton, setTempFButton] = useState(
+    <button
+      type="button"
+      className="temp-button tempF"
+      onClick={showFahrenheit}
+    >
+      °F
+    </button>
+  );
+  let [tempCButton, setTempCButton] = useState(
+    <button type="button" className="temp-button tempC">
+      °C
+    </button>
+  );
 
   let now = new Date();
   let Days = [
@@ -44,11 +60,12 @@ export default function Weather() {
     const apiKey = "3bb0c822ffbf8d7d00af7f1e1a4032dc";
     let apiCityUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
     axios.get(apiCityUrl).then(getUrl);
-    console.log(apiCityUrl);
   }
 
   function getUrl(response) {
     let weather = response.data.weather[0].description;
+    setUnitTemp("C");
+    setTemperature(Math.round(response.data.main.temp));
     if (weather === "clear sky") {
       setWeatherData({
         city: `${city}`,
@@ -157,7 +174,73 @@ export default function Weather() {
         humidity: response.data.main.humidity,
         wind: response.data.wind.speed,
       });
+    } else {
+      setWeatherData({
+        city: `${city}`,
+        country: response.data.sys.country,
+        currentTemp: Math.round(response.data.main.temp),
+        currentWeatherImage:
+          "https://ssl.gstatic.com/onebox/weather/256/cloudy.png",
+        description: response.data.weather[0].description,
+        clouds: response.data.clouds.all,
+        humidity: response.data.main.humidity,
+        wind: response.data.wind.speed,
+      });
     }
+
+    setTempFButton(
+      <button
+        type="button"
+        className="temp-button tempF"
+        onClick={showFahrenheit}
+      >
+        °F
+      </button>
+    );
+
+    setTempCButton(
+      <button type="button" className="temp-button tempC">
+        °C
+      </button>
+    );
+
+    console.log(unitTemp);
+  }
+
+  function showFahrenheit(event) {
+    event.preventDefault();
+    setTemperature(Math.round((temperature * 9) / 5 + 32));
+    setUnitTemp("F");
+    setTempFButton(
+      <button type="button" className="temp-button tempC">
+        °F
+      </button>
+    );
+    setTempCButton(
+      <button type="button" className="temp-button tempF" onClick={showCelsius}>
+        °C
+      </button>
+    );
+  }
+
+  function showCelsius(event) {
+    event.preventDefault();
+    setTemperature(weatherData.currentTemp);
+    setUnitTemp("C");
+    setTempFButton(
+      <button
+        type="button"
+        className="temp-button tempF"
+        onClick={showFahrenheit}
+      >
+        °F
+      </button>
+    );
+    setTempCButton(
+      <button type="button" className="temp-button tempC" onClick={showCelsius}>
+        °C
+      </button>
+    );
   }
 
   return (
@@ -200,8 +283,8 @@ export default function Weather() {
                 </span>
                 <br />
                 <span className="current-temp">
-                  <span id="current-temp">{weatherData.currentTemp}</span>
-                  <span id="temp-type">°C</span>
+                  <span id="current-temp">{temperature}</span>
+                  <span id="temp-type">°{unitTemp}</span>
                 </span>
                 <br />
                 <img
@@ -224,12 +307,9 @@ export default function Weather() {
                 <button type="button" className="week">
                   Week
                 </button>
-                <button type="button" className="temp-button tempF">
-                  °F
-                </button>
-                <button type="button" className="temp-button tempC">
-                  °C
-                </button>
+                {tempFButton}
+
+                {tempCButton}
 
                 <br />
 
