@@ -42,23 +42,122 @@ export default function Weather() {
   function inputCity(event) {
     event.preventDefault();
     const apiKey = "3bb0c822ffbf8d7d00af7f1e1a4032dc";
-    let apiCityUrl = `https://api.openweathermap.org/data/2.5/weather?q=${weatherData.city}&appid=${apiKey}&units=metric`;
+    let apiCityUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
     axios.get(apiCityUrl).then(getUrl);
     console.log(apiCityUrl);
   }
 
   function getUrl(response) {
-    setWeatherData({
-      city: `${city}`,
-      country: response.data.sys.country,
-      currentTemp: Math.round(response.data.main.temp),
-      currentWeatherImage:
-        "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png",
-      description: response.data.weather[0].description,
-      clouds: response.data.clouds.all,
-      humidity: response.data.main.humidity,
-      wind: response.data.wind.speed,
-    });
+    let weather = response.data.weather[0].description;
+    if (weather === "clear sky") {
+      setWeatherData({
+        city: `${city}`,
+        country: response.data.sys.country,
+        currentTemp: Math.round(response.data.main.temp),
+        currentWeatherImage:
+          "https://ssl.gstatic.com/onebox/weather/256/sunny.png",
+        description: response.data.weather[0].description,
+        clouds: response.data.clouds.all,
+        humidity: response.data.main.humidity,
+        wind: response.data.wind.speed,
+      });
+    } else if (weather === "few clouds") {
+      setWeatherData({
+        city: `${city}`,
+        country: response.data.sys.country,
+        currentTemp: Math.round(response.data.main.temp),
+        currentWeatherImage:
+          "https://ssl.gstatic.com/onebox/weather/256/sunny_s_cloudy.png",
+        description: response.data.weather[0].description,
+        clouds: response.data.clouds.all,
+        humidity: response.data.main.humidity,
+        wind: response.data.wind.speed,
+      });
+    } else if (weather === "scattered clouds") {
+      setWeatherData({
+        city: `${city}`,
+        country: response.data.sys.country,
+        currentTemp: Math.round(response.data.main.temp),
+        currentWeatherImage:
+          "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png",
+        description: response.data.weather[0].description,
+        clouds: response.data.clouds.all,
+        humidity: response.data.main.humidity,
+        wind: response.data.wind.speed,
+      });
+    } else if (weather === "broken clouds") {
+      setWeatherData({
+        city: `${city}`,
+        country: response.data.sys.country,
+        currentTemp: Math.round(response.data.main.temp),
+        currentWeatherImage:
+          "https://ssl.gstatic.com/onebox/weather/256/cloudy.png",
+        description: response.data.weather[0].description,
+        clouds: response.data.clouds.all,
+        humidity: response.data.main.humidity,
+        wind: response.data.wind.speed,
+      });
+    } else if (weather === "thunderstorm") {
+      setWeatherData({
+        city: `${city}`,
+        country: response.data.sys.country,
+        currentTemp: Math.round(response.data.main.temp),
+        currentWeatherImage:
+          "https://ssl.gstatic.com/onebox/weather/256/thunderstorms.png",
+        description: response.data.weather[0].description,
+        clouds: response.data.clouds.all,
+        humidity: response.data.main.humidity,
+        wind: response.data.wind.speed,
+      });
+    } else if (weather === "snow") {
+      setWeatherData({
+        city: `${city}`,
+        country: response.data.sys.country,
+        currentTemp: Math.round(response.data.main.temp),
+        currentWeatherImage:
+          "https://ssl.gstatic.com/onebox/weather/256/snow.png",
+        description: response.data.weather[0].description,
+        clouds: response.data.clouds.all,
+        humidity: response.data.main.humidity,
+        wind: response.data.wind.speed,
+      });
+    } else if (weather === "mist") {
+      setWeatherData({
+        city: `${city}`,
+        country: response.data.sys.country,
+        currentTemp: Math.round(response.data.main.temp),
+        currentWeatherImage:
+          "https://ssl.gstatic.com/onebox/weather/256/mist.png",
+        description: response.data.weather[0].description,
+        clouds: response.data.clouds.all,
+        humidity: response.data.main.humidity,
+        wind: response.data.wind.speed,
+      });
+    } else if (weather.includes("clouds")) {
+      setWeatherData({
+        city: `${city}`,
+        country: response.data.sys.country,
+        currentTemp: Math.round(response.data.main.temp),
+        currentWeatherImage:
+          "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png",
+        description: response.data.weather[0].description,
+        clouds: response.data.clouds.all,
+        humidity: response.data.main.humidity,
+        wind: response.data.wind.speed,
+      });
+    } else if (weather.includes("rain")) {
+      setWeatherData({
+        city: `${city}`,
+        country: response.data.sys.country,
+        currentTemp: Math.round(response.data.main.temp),
+        currentWeatherImage:
+          "https://ssl.gstatic.com/onebox/weather/256/rain_light.png",
+        description: response.data.weather[0].description,
+        clouds: response.data.clouds.all,
+        humidity: response.data.main.humidity,
+        wind: response.data.wind.speed,
+      });
+    }
   }
 
   return (
