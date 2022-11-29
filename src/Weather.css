@@ -63,6 +63,8 @@ body {
   margin: 0px 3px;
   background-color: burlywood;
   color: beige;
+  position: relative;
+  top: -28px;
 }
 .tempC {
   color: lightslategray;
@@ -115,6 +117,7 @@ button.btn.btn-primary.mb-2:hover {
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
   text-underline-position: under;
+  color: burlywood;
 }
 .currentWeatherEmoji {
   position: relative;
@@ -176,15 +179,25 @@ a:hover {
 button.today {
   padding: 0px;
 }
-.weather-forecast {
-  position: relative;
-  top: 10px;
+.WeatherForecast {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: center;
+  align-items: center;
+  width: 100%;
 }
 .forecastWeatherEmoji {
   max-width: 40px;
+  text-align: center;
+  margin: 0 auto;
+}
+.weather-forecast-date {
+  text-align: center;
 }
 .weather-forecast-temp {
   font-size: 15px;
+  text-align: center;
 }
 #hr2 {
   margin: auto;
@@ -211,6 +224,7 @@ div.weather-forecast {
   border-radius: 0px 30px;
   opacity: 80%;
   padding: 0px;
+  box-shadow: 5px 10px 10px lightslategray;
 }
 #city-image-overlay {
   position: relative;
@@ -274,6 +288,11 @@ a.github-link {
   }
   div.col-4.left {
     padding-left: 10px;
+  }
+
+  .flex-item {
+    text-align: center;
+    align-items: center !important;
   }
 }
 

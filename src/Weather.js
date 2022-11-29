@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Weather.css";
 import axios from "axios";
+import WeatherForecast from "./WeatherForecast";
 
 export default function Weather() {
   let [city, setCity] = useState();
@@ -300,35 +301,23 @@ export default function Weather() {
                 <br />
                 wind: <span id="wind">{weatherData.wind}</span> km/h
               </div>
-              <div className="col-8 right">
-                <button type="button" className="today">
-                  Today
-                </button>
-                <button type="button" className="week">
-                  Week
-                </button>
+              <div className="col-8">
+                <div className="right">
+                  <button type="button" className="today">
+                    Today
+                  </button>
+                  <button type="button" className="week">
+                    Week
+                  </button>
+                </div>
                 {tempFButton}
 
                 {tempCButton}
 
                 <br />
 
-                <div className="weather-forecast">
-                  <div className="row">
-                    <div className="col-2">
-                      <div className="weather-forecast-date">Thu</div>
-                      <img
-                        className="forecastWeatherEmoji"
-                        src="https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png"
-                        alt="Weather icon"
-                      />
-                      <div className="weather-forecast-temp">
-                        <span className="weather-forecast-temp-min">2°</span>-
-                        <span className="weather-forecast-temp-max">18°</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <WeatherForecast />
+
                 <br />
                 <hr id="hr2" />
                 <div className="row" id="city-image-overlay">
