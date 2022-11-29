@@ -316,7 +316,7 @@ export default function Weather() {
 
                 <br />
 
-                <WeatherForecast />
+                <WeatherForecast description={weatherData.description} />
 
                 <br />
                 <hr id="hr2" />

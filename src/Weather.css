@@ -188,9 +188,11 @@ button.today {
   width: 100%;
 }
 .forecastWeatherEmoji {
-  max-width: 40px;
+  width: 40px;
+  display: block;
   text-align: center;
-  margin: 0 auto;
+  margin: 5px auto;
+  margin-top: 8px;
 }
 .weather-forecast-date {
   text-align: center;
