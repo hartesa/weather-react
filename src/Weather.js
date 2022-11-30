@@ -4,21 +4,10 @@ import axios from "axios";
 import WeatherForecast from "./WeatherForecast";
 
 export default function Weather() {
-  let [city, setCity] = useState();
-  let [weatherData, setWeatherData] = useState({
-    city: "Jakarta",
-    currentTemp: 23,
-    currentWeatherImage:
-      "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png",
-    description: "Cloudy as shit",
-    clouds: 43,
-    humidity: 32,
-    wind: 12,
-    coordinates: {
-      lat: 74,
-      lon: 40,
-    },
-  });
+  // let [loaded, setLoaded] = useState(false);
+  let [city, setCity] = useState(null);
+  let [weatherData, setWeatherData] = useState({ ready: false });
+  let [weatherImage, setWeatherImage] = useState(null);
   let [temperature, setTemperature] = useState(20);
   let [unitTemp, setUnitTemp] = useState("C");
   let [tempFButton, setTempFButton] = useState(
@@ -49,12 +38,32 @@ export default function Weather() {
   let currentDay = Days[now.getDay()] + " - ";
   let currentTime = addZero(now.getHours()) + ":" + addZero(now.getMinutes());
 
+  function setCurrentCity() {
+    navigator.geolocation.getCurrentPosition(retrievePosition);
+    function retrievePosition(position) {
+      let lat = position.coords.latitude;
+      let lon = position.coords.longitude;
+      let apiKey = "3bb0c822ffbf8d7d00af7f1e1a4032dc";
+      let apiCoordsUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+      axios.get(apiCoordsUrl).then(getUrl);
+      // function showInput(response) {
+      //   setCity(response.data.name);
+      // }
+    }
+  }
+
   function addZero(i) {
     if (i < 10) {
       i = "0" + i;
     }
     return i;
   }
+
+  // function searchCity() {
+  //   const apiKey = "3bb0c822ffbf8d7d00af7f1e1a4032dc";
+  //   let apiCityUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  //   axios.get(apiCityUrl).then(getUrl);
+  // }
 
   function changeCity(event) {
     setCity(event.target.value);
@@ -70,139 +79,50 @@ export default function Weather() {
   function getUrl(response) {
     let weather = response.data.weather[0].description;
     setUnitTemp("C");
+    setWeatherData({
+      city: response.data.name,
+      country: response.data.sys.country,
+      currentTemp: Math.round(response.data.main.temp),
+      description: response.data.weather[0].description,
+      clouds: response.data.clouds.all,
+      humidity: response.data.main.humidity,
+      wind: response.data.wind.speed,
+      coordinates: response.data.coord,
+      ready: true,
+    });
     setTemperature(Math.round(response.data.main.temp));
-    if (weather === "clear sky") {
-      setWeatherData({
-        city: `${city}`,
-        country: response.data.sys.country,
-        currentTemp: Math.round(response.data.main.temp),
-        currentWeatherImage:
-          "https://ssl.gstatic.com/onebox/weather/256/sunny.png",
-        description: response.data.weather[0].description,
-        clouds: response.data.clouds.all,
-        humidity: response.data.main.humidity,
-        wind: response.data.wind.speed,
-        coordinates: response.data.coord,
-      });
-    } else if (weather === "few clouds") {
-      setWeatherData({
-        city: `${city}`,
-        country: response.data.sys.country,
-        currentTemp: Math.round(response.data.main.temp),
-        currentWeatherImage:
-          "https://ssl.gstatic.com/onebox/weather/256/sunny_s_cloudy.png",
-        description: response.data.weather[0].description,
-        clouds: response.data.clouds.all,
-        humidity: response.data.main.humidity,
-        wind: response.data.wind.speed,
-        coordinates: response.data.coord,
-      });
-    } else if (weather === "scattered clouds") {
-      setWeatherData({
-        city: `${city}`,
-        country: response.data.sys.country,
-        currentTemp: Math.round(response.data.main.temp),
-        currentWeatherImage:
-          "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png",
-        description: response.data.weather[0].description,
-        clouds: response.data.clouds.all,
-        humidity: response.data.main.humidity,
-        wind: response.data.wind.speed,
-        coordinates: response.data.coord,
-      });
-    } else if (weather === "broken clouds") {
-      setWeatherData({
-        city: `${city}`,
-        country: response.data.sys.country,
-        currentTemp: Math.round(response.data.main.temp),
-        currentWeatherImage:
-          "https://ssl.gstatic.com/onebox/weather/256/cloudy.png",
-        description: response.data.weather[0].description,
-        clouds: response.data.clouds.all,
-        humidity: response.data.main.humidity,
-        wind: response.data.wind.speed,
-        coordinates: response.data.coord,
-      });
-    } else if (weather === "thunderstorm") {
-      setWeatherData({
-        city: `${city}`,
-        country: response.data.sys.country,
-        currentTemp: Math.round(response.data.main.temp),
-        currentWeatherImage:
-          "https://ssl.gstatic.com/onebox/weather/256/thunderstorms.png",
-        description: response.data.weather[0].description,
-        clouds: response.data.clouds.all,
-        humidity: response.data.main.humidity,
-        wind: response.data.wind.speed,
-        coordinates: response.data.coord,
-      });
-    } else if (weather === "snow") {
-      setWeatherData({
-        city: `${city}`,
-        country: response.data.sys.country,
-        currentTemp: Math.round(response.data.main.temp),
-        currentWeatherImage:
-          "https://ssl.gstatic.com/onebox/weather/256/snow.png",
-        description: response.data.weather[0].description,
-        clouds: response.data.clouds.all,
-        humidity: response.data.main.humidity,
-        wind: response.data.wind.speed,
-        coordinates: response.data.coord,
-      });
-    } else if (weather === "mist") {
-      setWeatherData({
-        city: `${city}`,
-        country: response.data.sys.country,
-        currentTemp: Math.round(response.data.main.temp),
-        currentWeatherImage:
-          "https://ssl.gstatic.com/onebox/weather/256/mist.png",
-        description: response.data.weather[0].description,
-        clouds: response.data.clouds.all,
-        humidity: response.data.main.humidity,
-        wind: response.data.wind.speed,
-        coordinates: response.data.coord,
-      });
-    } else if (weather.includes("clouds")) {
-      setWeatherData({
-        city: `${city}`,
-        country: response.data.sys.country,
-        currentTemp: Math.round(response.data.main.temp),
-        currentWeatherImage:
-          "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png",
-        description: response.data.weather[0].description,
-        clouds: response.data.clouds.all,
-        humidity: response.data.main.humidity,
-        wind: response.data.wind.speed,
-        coordinates: response.data.coord,
-      });
-    } else if (weather.includes("rain")) {
-      setWeatherData({
-        city: `${city}`,
-        country: response.data.sys.country,
-        currentTemp: Math.round(response.data.main.temp),
-        currentWeatherImage:
-          "https://ssl.gstatic.com/onebox/weather/256/rain_light.png",
-        description: response.data.weather[0].description,
-        clouds: response.data.clouds.all,
-        humidity: response.data.main.humidity,
-        wind: response.data.wind.speed,
-        coordinates: response.data.coord,
-      });
-    } else {
-      setWeatherData({
-        city: `${city}`,
-        country: response.data.sys.country,
-        currentTemp: Math.round(response.data.main.temp),
-        currentWeatherImage:
-          "https://ssl.gstatic.com/onebox/weather/256/cloudy.png",
-        description: response.data.weather[0].description,
-        clouds: response.data.clouds.all,
-        humidity: response.data.main.humidity,
-        wind: response.data.wind.speed,
-        coordinates: response.data.coord,
-      });
-    }
 
+    if (weather === "clear sky") {
+      setWeatherImage("https://ssl.gstatic.com/onebox/weather/256/sunny.png");
+    } else if (weather === "few clouds") {
+      setWeatherImage(
+        "https://ssl.gstatic.com/onebox/weather/256/sunny_s_cloudy.png"
+      );
+    } else if (weather === "scattered clouds") {
+      setWeatherImage(
+        "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png"
+      );
+    } else if (weather === "broken clouds") {
+      setWeatherImage("https://ssl.gstatic.com/onebox/weather/256/cloudy.png");
+    } else if (weather === "thunderstorm") {
+      setWeatherImage(
+        "https://ssl.gstatic.com/onebox/weather/256/thunderstorms.png"
+      );
+    } else if (weather === "snow") {
+      setWeatherImage("https://ssl.gstatic.com/onebox/weather/256/snow.png");
+    } else if (weather === "mist") {
+      setWeatherImage("https://ssl.gstatic.com/onebox/weather/256/mist.png");
+    } else if (weather.includes("clouds")) {
+      setWeatherImage(
+        "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png"
+      );
+    } else if (weather.includes("rain")) {
+      setWeatherImage(
+        "https://ssl.gstatic.com/onebox/weather/256/rain_light.png"
+      );
+    } else {
+      setWeatherImage("https://ssl.gstatic.com/onebox/weather/256/cloudy.png");
+    }
     setTempFButton(
       <button
         type="button"
@@ -212,14 +132,12 @@ export default function Weather() {
         °F
       </button>
     );
-
     setTempCButton(
       <button type="button" className="temp-button tempC">
         °C
       </button>
     );
-
-    console.log(unitTemp);
+    // setLoaded(true);
   }
 
   function showFahrenheit(event) {
@@ -258,114 +176,117 @@ export default function Weather() {
     );
   }
 
-  return (
-    <div className="Weather">
-      <div className="container">
-        <div className="weather-app">
-          <br />
-          {/* <h1>
+  if (weatherData.ready) {
+    console.log(weatherData);
+    return (
+      <div className="Weather">
+        <div className="container">
+          <div className="weather-app">
+            <br />
+            {/* <h1>
             WEATHER IN <span className="city">{weatherData.city}</span>
           </h1> */}
 
-          <div id="inputForm">
-            <form id="input-form" onSubmit={inputCity}>
-              <input
-                className="enter-city"
-                type="text"
-                id="inputCity"
-                placeholder="enter a city"
-                onChange={changeCity}
-              />
-              <button type="submit" className="btn btn-primary mb-2">
-                Submit
-              </button>
-              <button type="submit" className="btn btn-secondary">
-                Current
-              </button>
-            </form>
-          </div>
-          <hr id="hr1" />
-
-          <div className="container">
-            <div className="row">
-              <div className="col-4 left">
-                <div className="current-city">
-                  {weatherData.city.toUpperCase()}
-                </div>
-                <span id="current-day-time">
-                  <span id="current-day"> {currentDay} </span>
-                  <span id="current-time"> {currentTime} </span>
-                </span>
-                <br />
-                <span className="current-temp">
-                  <span id="current-temp">{temperature}</span>
-                  <span id="temp-type">°{unitTemp}</span>
-                </span>
-                <br />
-                <img
-                  className="currentWeatherEmoji"
-                  src={weatherData.currentWeatherImage}
-                  alt="Weather icon"
+            <div id="inputForm">
+              <form id="input-form" onSubmit={inputCity}>
+                <input
+                  className="enter-city"
+                  type="text"
+                  id="inputCity"
+                  placeholder="enter a city"
+                  onChange={changeCity}
                 />
-                <br />
-                <span id="current-weather">{weatherData.description}</span>
-                <br /> clouds:{" "}
-                <span id="precipitation">{weatherData.clouds}</span>%<br />
-                humidity: <span id="humidity">{weatherData.humidity}</span>%
-                <br />
-                wind: <span id="wind">{weatherData.wind}</span> km/h
-              </div>
-              <div className="col-8">
-                <div className="right">
-                  <button type="button" className="today">
-                    Today
-                  </button>
-                  <button type="button" className="week">
-                    Week
-                  </button>
-                </div>
-                {tempFButton}
-
-                {tempCButton}
-
-                <br />
-
-                <WeatherForecast
-                  description={weatherData.description}
-                  coordinates={weatherData.coordinates}
-                />
-
-                <br />
-                <hr id="hr2" />
-                <div className="row" id="city-image-overlay">
-                  <img
-                    id="city-image"
-                    src="https://assets.weforum.org/article/image/large_oJiIJtxAsQSP1eYnpNTTIMzjYoCmJo1oiC1mx2jWlN4.jpg"
-                    alt="City"
-                    rel="noreferrer"
-                  />
-                </div>
-                <span id="country-city">Country/City</span>
-              </div>
+                <button type="submit" className="btn btn-primary mb-2">
+                  Submit
+                </button>
+                <button type="submit" className="btn btn-secondary">
+                  Current
+                </button>
+              </form>
             </div>
+            <hr id="hr1" />
 
-            <div className="afternote">
-              <i class="fa-brands fa-github github-icon" alt="github"></i>
-              <span> </span>
-              <a
-                href="https://github.com/hartesa/weather-react"
-                target="_blank"
-                class="github-link"
-                rel="noreferrer"
-              >
-                Open-source code
-              </a>
-              <span> </span>
-              by Hartesa ©2022
+            <div className="container">
+              <div className="row">
+                <div className="col-4 left">
+                  <div className="current-city">
+                    {weatherData.city.toUpperCase()}
+                  </div>
+                  <span id="current-day-time">
+                    <span id="current-day"> {currentDay} </span>
+                    <span id="current-time"> {currentTime} </span>
+                  </span>
+                  <br />
+                  <span className="current-temp">
+                    <span id="current-temp">{temperature}</span>
+                    <span id="temp-type">°{unitTemp}</span>
+                  </span>
+                  <br />
+                  <img
+                    className="currentWeatherEmoji"
+                    src={weatherImage}
+                    alt="Weather icon"
+                  />
+                  <br />
+                  <span id="current-weather">{weatherData.description}</span>
+                  <br /> clouds:{" "}
+                  <span id="precipitation">{weatherData.clouds}</span>%<br />
+                  humidity: <span id="humidity">{weatherData.humidity}</span>%
+                  <br />
+                  wind: <span id="wind">{weatherData.wind}</span> km/h
+                </div>
+                <div className="col-8">
+                  <div className="right">
+                    <button type="button" className="today">
+                      Today
+                    </button>
+                    <button type="button" className="week">
+                      Week
+                    </button>
+                  </div>
+                  {tempFButton}
+
+                  {tempCButton}
+
+                  <br />
+
+                  <WeatherForecast weatherData={weatherData} />
+
+                  <br />
+                  <hr id="hr2" />
+                  <div className="row" id="city-image-overlay">
+                    <img
+                      id="city-image"
+                      src="https://assets.weforum.org/article/image/large_oJiIJtxAsQSP1eYnpNTTIMzjYoCmJo1oiC1mx2jWlN4.jpg"
+                      alt="City"
+                      rel="noreferrer"
+                    />
+                  </div>
+                  <span id="country-city">Country/City</span>
+                </div>
+              </div>
+
+              <div className="afternote">
+                <i class="fa-brands fa-github github-icon" alt="github"></i>
+                <span> </span>
+                <a
+                  href="https://github.com/hartesa/weather-react"
+                  target="_blank"
+                  class="github-link"
+                  rel="noreferrer"
+                >
+                  Open-source code
+                </a>
+                <span> </span>
+                by Hartesa ©2022
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    setCurrentCity();
+    return null;
+  }
 }

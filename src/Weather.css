@@ -187,6 +187,7 @@ button.today {
   align-content: center;
   align-items: center;
   width: 100%;
+  flex-wrap: nowrap;
 }
 .forecastWeatherEmoji {
   width: 40px;
@@ -293,9 +294,14 @@ a.github-link {
     padding-left: 10px;
   }
 
-  .flex-item {
+  .flex-item,
+  .WeatherForecastDay {
     text-align: center;
     align-items: center !important;
+    /* display: inline-flex; */
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
   }
 }
 

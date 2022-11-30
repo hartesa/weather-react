@@ -1,50 +1,58 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Weather.css";
-import ReactAnimatedWeather from "react-animated-weather";
 import axios from "axios";
+import WeatherForecastDay from "./WeatherForecastDay";
 
 export default function WeatherForecast(props) {
-  const defaults = {
-    icon: "CLEAR_DAY",
-    color: "#D9D9D9",
-    size: 32,
-    animate: true,
-  };
+  let [forecast, setForecast] = useState(null);
+  let [loaded, setLoaded] = useState(false);
+  // let [longitude, setLongitude] = useState(null);
+  // let [latitude, setLatitude] = useState(null);
 
-  let apiKey = "866a208a73eeff02182218e9441647a1";
-  let longitude = props.coordinates.lon;
-  let latitude = props.coordinates.lat;
-  let apiUrl = `
-    https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units="metric"`;
-  axios.get(apiUrl).then(handleResponse);
+  useEffect(() => {
+    setLoaded(false);
+  }, [props.coordinates]);
 
   function handleResponse(response) {
-    console.log(apiUrl);
-    console.log(response.data);
+    setForecast(response.data.daily);
+    setLoaded(true);
+    // setLongitude(response.data.lon);
+    // setLatitude(response.data.lat);
   }
 
-  return (
-    <div className="WeatherForecast flex-container">
-      <div className="flex-item">
-        <div className="weather-forecast-date">Thu</div>
-        <div className="forecastWeatherEmoji">
-          <ReactAnimatedWeather
-            icon={defaults.icon}
-            color={defaults.color}
-            size={defaults.size}
-            animate={defaults.animate}
-          />
+  if (loaded) {
+    // console.log(forecast);
+    // console.log(props.weatherData);
+    // let iconCode = forecast[0].weather[0].icon;
+    return (
+      <div className="WeatherForecast flex-container">
+        <div className="flex-item">
+          <WeatherForecastDay forecast={forecast[1]} />
         </div>
-        {/* <img
-          className="forecastWeatherEmoji"
-          src="https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png"
-          alt="Weather icon"
-        /> */}
-        <div className="weather-forecast-temp">
-          <span className="weather-forecast-temp-min">3°</span>-
-          <span className="weather-forecast-temp-max">8°</span>
+        <div className="flex-item">
+          <WeatherForecastDay forecast={forecast[2]} />
+        </div>
+        <div className="flex-item">
+          <WeatherForecastDay forecast={forecast[3]} />
+        </div>
+        <div className="flex-item">
+          <WeatherForecastDay forecast={forecast[4]} />
+        </div>
+        <div className="flex-item">
+          <WeatherForecastDay forecast={forecast[5]} />
+        </div>
+        <div className="flex-item">
+          <WeatherForecastDay forecast={forecast[6]} />
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    console.log("masuk weatherforecast");
+    // let apiKey = "866a208a73eeff02182218e9441647a1";
+    let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+    let longitude = props.weatherData.coordinates.lon;
+    let latitude = props.weatherData.coordinates.lat;
+    let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(handleResponse);
+  }
 }
