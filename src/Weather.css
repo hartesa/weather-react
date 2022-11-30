@@ -158,6 +158,7 @@ button.btn.btn-primary.mb-2:hover {
   border-radius: 5px;
   border-style: dashed;
   border-color: burlywood;
+  background: white !important;
 }
 .github-icon {
   font-size: 12px;

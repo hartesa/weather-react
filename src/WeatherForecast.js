@@ -1,14 +1,27 @@
 import React from "react";
 import "./Weather.css";
 import ReactAnimatedWeather from "react-animated-weather";
+import axios from "axios";
 
 export default function WeatherForecast(props) {
   const defaults = {
     icon: "CLEAR_DAY",
-    color: "goldenrod",
+    color: "#D9D9D9",
     size: 32,
     animate: true,
   };
+
+  let apiKey = "866a208a73eeff02182218e9441647a1";
+  let longitude = props.coordinates.lon;
+  let latitude = props.coordinates.lat;
+  let apiUrl = `
+    https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units="metric"`;
+  axios.get(apiUrl).then(handleResponse);
+
+  function handleResponse(response) {
+    console.log(apiUrl);
+    console.log(response.data);
+  }
 
   return (
     <div className="WeatherForecast flex-container">

@@ -14,6 +14,10 @@ export default function Weather() {
     clouds: 43,
     humidity: 32,
     wind: 12,
+    coordinates: {
+      lat: 74,
+      lon: 40,
+    },
   });
   let [temperature, setTemperature] = useState(20);
   let [unitTemp, setUnitTemp] = useState("C");
@@ -78,6 +82,7 @@ export default function Weather() {
         clouds: response.data.clouds.all,
         humidity: response.data.main.humidity,
         wind: response.data.wind.speed,
+        coordinates: response.data.coord,
       });
     } else if (weather === "few clouds") {
       setWeatherData({
@@ -90,6 +95,7 @@ export default function Weather() {
         clouds: response.data.clouds.all,
         humidity: response.data.main.humidity,
         wind: response.data.wind.speed,
+        coordinates: response.data.coord,
       });
     } else if (weather === "scattered clouds") {
       setWeatherData({
@@ -102,6 +108,7 @@ export default function Weather() {
         clouds: response.data.clouds.all,
         humidity: response.data.main.humidity,
         wind: response.data.wind.speed,
+        coordinates: response.data.coord,
       });
     } else if (weather === "broken clouds") {
       setWeatherData({
@@ -114,6 +121,7 @@ export default function Weather() {
         clouds: response.data.clouds.all,
         humidity: response.data.main.humidity,
         wind: response.data.wind.speed,
+        coordinates: response.data.coord,
       });
     } else if (weather === "thunderstorm") {
       setWeatherData({
@@ -126,6 +134,7 @@ export default function Weather() {
         clouds: response.data.clouds.all,
         humidity: response.data.main.humidity,
         wind: response.data.wind.speed,
+        coordinates: response.data.coord,
       });
     } else if (weather === "snow") {
       setWeatherData({
@@ -138,6 +147,7 @@ export default function Weather() {
         clouds: response.data.clouds.all,
         humidity: response.data.main.humidity,
         wind: response.data.wind.speed,
+        coordinates: response.data.coord,
       });
     } else if (weather === "mist") {
       setWeatherData({
@@ -150,6 +160,7 @@ export default function Weather() {
         clouds: response.data.clouds.all,
         humidity: response.data.main.humidity,
         wind: response.data.wind.speed,
+        coordinates: response.data.coord,
       });
     } else if (weather.includes("clouds")) {
       setWeatherData({
@@ -162,6 +173,7 @@ export default function Weather() {
         clouds: response.data.clouds.all,
         humidity: response.data.main.humidity,
         wind: response.data.wind.speed,
+        coordinates: response.data.coord,
       });
     } else if (weather.includes("rain")) {
       setWeatherData({
@@ -174,6 +186,7 @@ export default function Weather() {
         clouds: response.data.clouds.all,
         humidity: response.data.main.humidity,
         wind: response.data.wind.speed,
+        coordinates: response.data.coord,
       });
     } else {
       setWeatherData({
@@ -186,6 +199,7 @@ export default function Weather() {
         clouds: response.data.clouds.all,
         humidity: response.data.main.humidity,
         wind: response.data.wind.speed,
+        coordinates: response.data.coord,
       });
     }
 
@@ -316,7 +330,10 @@ export default function Weather() {
 
                 <br />
 
-                <WeatherForecast description={weatherData.description} />
+                <WeatherForecast
+                  description={weatherData.description}
+                  coordinates={weatherData.coordinates}
+                />
 
                 <br />
                 <hr id="hr2" />
