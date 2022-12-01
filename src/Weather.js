@@ -1,50 +1,50 @@
-import React, {useState} from 'react';
-import './Weather.css';
-import axios from 'axios';
-import WeatherForecast from './WeatherForecast';
+import React, {useState} from "react";
+import "./Weather.css";
+import axios from "axios";
+import WeatherForecast from "./WeatherForecast";
 
 export default function Weather() {
   // let [loaded, setLoaded] = useState(false);
-  const [city, setCity] = useState(null);
-  const [weatherData, setWeatherData] = useState({ready: false});
-  const [weatherImage, setWeatherImage] = useState(null);
-  const [temperature, setTemperature] = useState(20);
-  const [unitTemp, setUnitTemp] = useState('C');
-  const [tempFButton, setTempFButton] = useState(
-      <button
-        type="button"
-        className="temp-button tempF"
-        onClick={showFahrenheit}
-      >
+  let [city, setCity] = useState(null);
+  let [weatherData, setWeatherData] = useState({ ready: false });
+  let [weatherImage, setWeatherImage] = useState(null);
+  let [temperature, setTemperature] = useState(20);
+  let [unitTemp, setUnitTemp] = useState("C");
+  let [tempFButton, setTempFButton] = useState(
+    <button
+      type="button"
+      className="temp-button tempF"
+      onClick={showFahrenheit}
+    >
       °F
-      </button>,
+    </button>
   );
-  const [tempCButton, setTempCButton] = useState(
-      <button type="button" className="temp-button tempC">
+  let [tempCButton, setTempCButton] = useState(
+    <button type="button" className="temp-button tempC">
       °C
-      </button>,
+    </button>
   );
 
-  const now = new Date();
-  const Days = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
+  let now = new Date();
+  let Days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ];
-  const currentDay = Days[now.getDay()] + ' - ';
-  const currentTime = addZero(now.getHours()) + ':' + addZero(now.getMinutes());
+  let currentDay = Days[now.getDay()] + " - ";
+  let currentTime = addZero(now.getHours()) + ":" + addZero(now.getMinutes());
 
   function setCurrentCity() {
     navigator.geolocation.getCurrentPosition(retrievePosition);
     function retrievePosition(position) {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-      const apiKey = '3bb0c822ffbf8d7d00af7f1e1a4032dc';
-      const apiCoordsUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+      let lat = position.coords.latitude;
+      let lon = position.coords.longitude;
+      let apiKey = "3bb0c822ffbf8d7d00af7f1e1a4032dc";
+      let apiCoordsUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
       axios.get(apiCoordsUrl).then(getUrl);
       // function showInput(response) {
       //   setCity(response.data.name);
@@ -54,7 +54,7 @@ export default function Weather() {
 
   function addZero(i) {
     if (i < 10) {
-      i = '0' + i;
+      i = "0" + i;
     }
     return i;
   }
@@ -71,14 +71,14 @@ export default function Weather() {
 
   function inputCity(event) {
     event.preventDefault();
-    const apiKey = '3bb0c822ffbf8d7d00af7f1e1a4032dc';
-    const apiCityUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    const apiKey = "3bb0c822ffbf8d7d00af7f1e1a4032dc";
+    let apiCityUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
     axios.get(apiCityUrl).then(getUrl);
   }
 
   function getUrl(response) {
-    const weather = response.data.weather[0].description;
-    setUnitTemp('C');
+    let weather = response.data.weather[0].description;
+    setUnitTemp("C");
     setWeatherData({
       city: response.data.name,
       country: response.data.sys.country,
@@ -92,50 +92,50 @@ export default function Weather() {
     });
     setTemperature(Math.round(response.data.main.temp));
 
-    if (weather === 'clear sky') {
-      setWeatherImage('https://ssl.gstatic.com/onebox/weather/256/sunny.png');
-    } else if (weather === 'few clouds') {
+    if (weather === "clear sky") {
+      setWeatherImage("https://ssl.gstatic.com/onebox/weather/256/sunny.png");
+    } else if (weather === "few clouds") {
       setWeatherImage(
-          'https://ssl.gstatic.com/onebox/weather/256/sunny_s_cloudy.png',
+        "https://ssl.gstatic.com/onebox/weather/256/sunny_s_cloudy.png"
       );
-    } else if (weather === 'scattered clouds') {
+    } else if (weather === "scattered clouds") {
       setWeatherImage(
-          'https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png',
+        "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png"
       );
-    } else if (weather === 'broken clouds') {
-      setWeatherImage('https://ssl.gstatic.com/onebox/weather/256/cloudy.png');
-    } else if (weather === 'thunderstorm') {
+    } else if (weather === "broken clouds") {
+      setWeatherImage("https://ssl.gstatic.com/onebox/weather/256/cloudy.png");
+    } else if (weather === "thunderstorm") {
       setWeatherImage(
-          'https://ssl.gstatic.com/onebox/weather/256/thunderstorms.png',
+        "https://ssl.gstatic.com/onebox/weather/256/thunderstorms.png"
       );
-    } else if (weather === 'snow') {
-      setWeatherImage('https://ssl.gstatic.com/onebox/weather/256/snow.png');
-    } else if (weather === 'mist') {
-      setWeatherImage('https://ssl.gstatic.com/onebox/weather/256/mist.png');
-    } else if (weather.includes('clouds')) {
+    } else if (weather === "snow") {
+      setWeatherImage("https://ssl.gstatic.com/onebox/weather/256/snow.png");
+    } else if (weather === "mist") {
+      setWeatherImage("https://ssl.gstatic.com/onebox/weather/256/mist.png");
+    } else if (weather.includes("clouds")) {
       setWeatherImage(
-          'https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png',
+        "https://ssl.gstatic.com/onebox/weather/256/partly_cloudy.png"
       );
-    } else if (weather.includes('rain')) {
+    } else if (weather.includes("rain")) {
       setWeatherImage(
-          'https://ssl.gstatic.com/onebox/weather/256/rain_light.png',
+        "https://ssl.gstatic.com/onebox/weather/256/rain_light.png"
       );
     } else {
-      setWeatherImage('https://ssl.gstatic.com/onebox/weather/256/cloudy.png');
+      setWeatherImage("https://ssl.gstatic.com/onebox/weather/256/cloudy.png");
     }
     setTempFButton(
-        <button
-          type="button"
-          className="temp-button tempF"
-          onClick={showFahrenheit}
-        >
+      <button
+        type="button"
+        className="temp-button tempF"
+        onClick={showFahrenheit}
+      >
         °F
-        </button>,
+      </button>
     );
     setTempCButton(
-        <button type="button" className="temp-button tempC">
+      <button type="button" className="temp-button tempC">
         °C
-        </button>,
+      </button>
     );
     // setLoaded(true);
   }
@@ -143,36 +143,36 @@ export default function Weather() {
   function showFahrenheit(event) {
     event.preventDefault();
     setTemperature(Math.round((temperature * 9) / 5 + 32));
-    setUnitTemp('F');
+    setUnitTemp("F");
     setTempFButton(
-        <button type="button" className="temp-button tempC">
+      <button type="button" className="temp-button tempC">
         °F
-        </button>,
+      </button>
     );
     setTempCButton(
-        <button type="button" className="temp-button tempF" onClick={showCelsius}>
+      <button type="button" className="temp-button tempF" onClick={showCelsius}>
         °C
-        </button>,
+      </button>
     );
   }
 
   function showCelsius(event) {
     event.preventDefault();
     setTemperature(weatherData.currentTemp);
-    setUnitTemp('C');
+    setUnitTemp("C");
     setTempFButton(
-        <button
-          type="button"
-          className="temp-button tempF"
-          onClick={showFahrenheit}
-        >
+      <button
+        type="button"
+        className="temp-button tempF"
+        onClick={showFahrenheit}
+      >
         °F
-        </button>,
+      </button>
     );
     setTempCButton(
-        <button type="button" className="temp-button tempC" onClick={showCelsius}>
+      <button type="button" className="temp-button tempC" onClick={showCelsius}>
         °C
-        </button>,
+      </button>
     );
   }
 
@@ -229,7 +229,7 @@ export default function Weather() {
                   />
                   <br />
                   <span id="current-weather">{weatherData.description}</span>
-                  <br /> clouds:{' '}
+                  <br /> clouds:{" "}
                   <span id="precipitation">{weatherData.clouds}</span>%<br />
                   humidity: <span id="humidity">{weatherData.humidity}</span>%
                   <br />
