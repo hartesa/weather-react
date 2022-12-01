@@ -40,7 +40,6 @@ export default function WeatherForecastDay(props) {
           //   color={"#D9D9D9"}
           size={32}
           animate={true}
-          font-weight={100}
         />
       </div>
       <div className="weather-forecast-temp">

@@ -26,7 +26,16 @@ export default function WeatherForecast(props) {
     // let iconCode = forecast[0].weather[0].icon;
     return (
       <div className="WeatherForecast flex-container">
-        <div className="flex-item">
+        {forecast.map((dailyForecast, index) => {
+          if (index > 0 && index < 6) {
+            return (
+              <div className="flex-item" key={index}>
+                <WeatherForecastDay forecast={dailyForecast} />
+              </div>
+            );
+          }
+        })}
+        {/* <div className="flex-item">
           <WeatherForecastDay forecast={forecast[1]} />
         </div>
         <div className="flex-item">
@@ -43,7 +52,7 @@ export default function WeatherForecast(props) {
         </div>
         <div className="flex-item">
           <WeatherForecastDay forecast={forecast[6]} />
-        </div>
+        </div> */}
       </div>
     );
   } else {
